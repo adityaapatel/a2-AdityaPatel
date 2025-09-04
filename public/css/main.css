@@ -59,4 +59,5 @@ nav .navbar-nav {
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap:
+  gap: 1rem;
+}
