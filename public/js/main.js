@@ -1,30 +1,30 @@
-// FRONT-END (CLIENT) JAVASCRIPT HERE
+// // FRONT-END (CLIENT) JAVASCRIPT HERE
 
-const submit = async function( event ) {
-  // stop form submission from trying to load
-  // a new .html page for displaying results...
-  // this was the original browser behavior and still
-  // remains to this day
-  event.preventDefault()
+// const submit = async function( event ) {
+//   // stop form submission from trying to load
+//   // a new .html page for displaying results...
+//   // this was the original browser behavior and still
+//   // remains to this day
+//   event.preventDefault()
   
-  const input = document.querySelector( "#yourname" ),
-        json = { yourname: input.value },
-        body = JSON.stringify( json )
+//   const input = document.querySelector( "#yourname" ),
+//         json = { yourname: input.value },
+//         body = JSON.stringify( json )
 
-  const response = await fetch( "/submit", {
-    method:"POST",
-    body 
-  })
+//   const response = await fetch( "/submit", {
+//     method:"POST",
+//     body 
+//   })
 
-  const text = await response.text()
+//   const text = await response.text()
 
-  console.log( "text:", text )
-}
+//   console.log( "text:", text )
+// }
 
-window.onload = function() {
-   const button = document.querySelector("button");
-  button.onclick = submit;
-}
+// window.onload = function() {
+//    const button = document.querySelector("button");
+//   button.onclick = submit;
+// }
 
 const $ = (id) => document.getElementById(id);
 const toDate = (iso) => (iso ? new Date(iso).toLocaleDateString() : "");
@@ -57,6 +57,22 @@ async function markCompleted(rowIndex) {
   return r.text();
 }
 
+function showAlert(msg) {
+  const alertDiv = $("form-alert");
+  if (alertDiv) {
+    alertDiv.textContent = msg;
+    alertDiv.classList.remove("d-none");
+  }
+}
+
+function hideAlert() {
+  const alertDiv = $("form-alert");
+  if (alertDiv) {
+    alertDiv.textContent = "";
+    alertDiv.classList.add("d-none");
+  }
+}
+
 // form submit for index.html
 function bindForm() {
   const form = $("bucketform");
@@ -64,20 +80,31 @@ function bindForm() {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    hideAlert();
 
     const title = $("title").value.trim();
     const category = $("category").value;
     const priority = $("priority").value;
     const targetDate = $("targetDate") ? $("targetDate").value : "";
 
-    if (!title) return;
+    // Check required fields
+    if (!title || !category || !priority) {
+      showAlert("Please fill out all required fields.");
+      return;
+    }
+
+    // Optionally, check for valid date
+    if (targetDate && isNaN(Date.parse(targetDate))) {
+      showAlert("Please enter a valid date.");
+      return;
+    }
 
     try {
       await addItem({ title, category, priority, targetDate });
-      $("response-message").textContent = "Added to your list!";
-      form.reset();
+      form.reset(); // clear fields
+      window.location.href = "results.html"; // redirect
     } catch (err) {
-      $("response-message").textContent = "Error adding item.";
+      showAlert("Error adding item. Try again.");
       console.error(err);
     }
   });
