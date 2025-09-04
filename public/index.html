@@ -1,18 +1,64 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>CS4241 Assignment 2</title>
+    <title>CS4241 Assignment 2 — Bucket Buddy</title>
     <meta charset="utf-8">
-    <script src="js/main.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script defer src="js/main.js"></script>
     <link rel="stylesheet" href="css/main.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <!-- get rid of favicon error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
   <body>
-    <form>
-      <input type="text" id="AdityaPatel" value="Aditya Patel">
-      <button>submit</button>
-    </form>
+    <nav>
+      <h1>Bucket Buddy</h1>
+      <div>
+        <p>Home</p>
+        <p><a href="results.html">All Items</a></p>
+      </div>
+    </nav>
+
+    <div class="main">
+      <form id="bucketform">
+        <h2>Add Bucket List Item</h2>
+
+        <div class="vertical">
+          <div class="horizontal">
+            <label for="title">Tile:</label>
+            <input type="text" id="title" placeholder="e.g., Skydive in Hawaiʻi" required>
+          </div>
+
+          <div class="horizontal">
+            <label for="category">Category:</label>
+            <select id="category" required>
+              <option>Travel</option>
+              <option>Food</option>
+              <option>Skills</option>
+              <option>Adventure</option>
+              <option selected>Personal</option>
+            </select>
+          </div>
+
+          <div class="horizontal">
+            <label for="priority">Priorty:</label>
+            <select id="priority" required>
+              <option>low</option>
+              <option selected>medium</option>
+              <option>high</option>
+            </select>
+          </div>
+
+          <div class="horizontal">
+            <label for="targetDate">Target Date:</label>
+            <input type="date" id="targetDate">
+          </div>
+        </div>
+
+        <button type="submit">submit</button>
+      </form>
+
+      <p id="response-message" aria-live="polite"></p>
+    </div>
   </body>
 </html>
