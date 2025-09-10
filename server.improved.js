@@ -149,15 +149,13 @@ const sendFile = function(response, filename) {
     }
   })
 }
-
 // check keys
 const correctDataFormat = (data) => {
   try {
-    const keys = Object.keys(data)
-    return keys.every(k => properties.includes(k))
-  } catch(e) {
-    return false
+    const required = ["title", "category", "priority", "targetDate"];
+    return required.every(k => k in data);
+  } catch (e) {
+    return false;
   }
 }
-
 server.listen( process.env.PORT || port )
